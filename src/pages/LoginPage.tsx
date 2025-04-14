@@ -1,21 +1,23 @@
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   
-  const handleLogin = (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Simple validation
@@ -28,19 +30,9 @@ const LoginPage = () => {
       return;
     }
     
-    // Mock login - in a real app, this would validate against a backend
-    if (email === 'admin@example.com' && password === 'password') {
-      toast({
-        title: "Login successful",
-        description: "Welcome back to Budget Savvy!"
-      });
+    const success = await login(email, password);
+    if (success) {
       navigate('/');
-    } else {
-      toast({
-        title: "Login failed",
-        description: "Invalid email or password. Try admin@example.com / password",
-        variant: "destructive"
-      });
     }
   };
   
@@ -74,7 +66,15 @@ const LoginPage = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <Link 
+                    to="/forgot-password"
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input 
@@ -102,7 +102,13 @@ const LoginPage = () => {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col">
-              <Button type="submit" className="w-full">Login</Button>
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </Button>
               <p className="mt-4 text-sm text-center text-muted-foreground">
                 Demo credentials: admin@example.com / password
               </p>

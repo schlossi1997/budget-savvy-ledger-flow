@@ -11,69 +11,73 @@ import AnalysisPage from "./pages/AnalysisPage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/LoginPage";
-import { useState, useEffect } from "react";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
-// Simple auth check - in a real app, this would use proper authentication
-const isAuthenticated = () => {
-  // Check for authentication, for demo purposes always return true
-  // In a real app, you'd verify if the user is logged in
-  return true;
-};
-
-// Protected route component
-const ProtectedRoute = ({ children }) => {
-  if (!isAuthenticated()) {
+// Protected route component that uses the auth context
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  // If still loading auth state, show nothing (or could add a loading spinner)
+  if (loading) {
+    return null;
+  }
+  
+  // If not authenticated, redirect to login
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-  return children;
+  
+  return <>{children}</>;
+};
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/" element={
+        <ProtectedRoute>
+          <Index />
+        </ProtectedRoute>
+      } />
+      <Route path="/transactions" element={
+        <ProtectedRoute>
+          <TransactionsPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/budgets" element={
+        <ProtectedRoute>
+          <BudgetsPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/analysis" element={
+        <ProtectedRoute>
+          <AnalysisPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/settings" element={
+        <ProtectedRoute>
+          <SettingsPage />
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 };
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-  // For demo, automatically consider logged in
-  useEffect(() => {
-    // In a real app, you would check for an auth token here
-    setIsLoggedIn(true);
-  }, []);
-  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            } />
-            <Route path="/transactions" element={
-              <ProtectedRoute>
-                <TransactionsPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/budgets" element={
-              <ProtectedRoute>
-                <BudgetsPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/analysis" element={
-              <ProtectedRoute>
-                <AnalysisPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/settings" element={
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            } />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
