@@ -1,13 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import MainLayout from '@/components/layout/MainLayout';
+import FinancialSummary from '@/components/dashboard/FinancialSummary';
+import RecentTransactions from '@/components/dashboard/RecentTransactions';
+import ExpenseBreakdown from '@/components/dashboard/ExpenseBreakdown';
+import BudgetOverview from '@/components/dashboard/BudgetOverview';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <MainLayout>
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <p className="text-muted-foreground">Overview of your finances</p>
+        </div>
+        
+        <FinancialSummary />
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <RecentTransactions />
+          <ExpenseBreakdown />
+        </div>
+        
+        <BudgetOverview />
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
