@@ -71,7 +71,7 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
-                    active={isActive(item.url)}
+                    isActive={isActive(item.url)}
                     className={isActive(item.url) ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
                   >
                     <Link to={item.url} className="flex items-center gap-3 px-3 py-2">
