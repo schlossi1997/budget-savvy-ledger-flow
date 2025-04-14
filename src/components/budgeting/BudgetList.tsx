@@ -1,12 +1,44 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { calculateBudgetStatus, formatCurrency, mockBudgets } from '@/lib/mockData';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import AddBudgetDialog from './AddBudgetDialog';
+import { Button } from '@/components/ui/button';
+import { Edit, Trash2 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import EditBudgetDialog from './EditBudgetDialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 const BudgetList = () => {
-  const budgets = [...mockBudgets];
+  const { toast } = useToast();
+  const [budgets, setBudgets] = useState([...mockBudgets]);
+  const [selectedBudget, setSelectedBudget] = useState(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleDelete = (id) => {
+    setBudgets(budgets.filter(budget => budget.id !== id));
+    toast({
+      title: "Budget deleted",
+      description: "The budget has been successfully deleted",
+    });
+  };
+
+  const handleEdit = (budget) => {
+    setSelectedBudget(budget);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdate = (updatedBudget) => {
+    setBudgets(budgets.map(budget => 
+      budget.id === updatedBudget.id ? updatedBudget : budget
+    ));
+    setIsEditDialogOpen(false);
+    toast({
+      title: "Budget updated",
+      description: "The budget has been successfully updated",
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -15,7 +47,7 @@ const BudgetList = () => {
           <h2 className="text-2xl font-bold tracking-tight">Budgets</h2>
           <p className="text-muted-foreground">Manage your category budgets</p>
         </div>
-        <AddBudgetDialog />
+        <AddBudgetDialog onAddBudget={(newBudget) => setBudgets([...budgets, { ...newBudget, id: Date.now() }])} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-fade-in">
@@ -61,12 +93,45 @@ const BudgetList = () => {
                 />
                 <div className="mt-4 flex justify-between text-sm text-muted-foreground">
                   <div>Remaining: {formatCurrency(budget.amount - budget.spent)}</div>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="icon" onClick={() => handleEdit(budget)}>
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete the {budget.category} budget.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleDelete(budget.id)}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           );
         })}
       </div>
+      
+      {selectedBudget && (
+        <EditBudgetDialog 
+          budget={selectedBudget} 
+          open={isEditDialogOpen} 
+          onOpenChange={setIsEditDialogOpen}
+          onUpdate={handleUpdate}
+        />
+      )}
     </div>
   );
 };
