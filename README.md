@@ -1,73 +1,113 @@
-# Welcome to your Lovable project
 
-## Project info
+# Budget Savvy: Financial Management Application
 
-**URL**: https://lovable.dev/projects/f8d365e1-0447-4f80-8343-b8d9a26a8529
+## Overview
 
-## How can I edit this code?
+Budget Savvy is a comprehensive web application designed to help users manage their personal finances effectively. Built with modern web technologies, it provides intuitive tools for tracking transactions, creating budgets, and gaining financial insights.
 
-There are several ways of editing your application.
+## Technologies
 
-**Use Lovable**
+- **Frontend**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn/UI
+- **State Management**: React Query
+- **Routing**: React Router
+- **Build Tool**: Vite
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f8d365e1-0447-4f80-8343-b8d9a26a8529) and start prompting.
+## Key Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- 📊 Dashboard with financial overview
+- 💸 Transaction tracking and management
+- 🏦 Budget creation and monitoring
+- 📈 Financial analysis and reporting
+- 🔐 Secure user authentication
+- 🚀 Interactive first-time user tour
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js (v14 or later)
+- npm (v6 or later)
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Clone the repository
+```bash
+git clone <your-repository-url>
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies
+```bash
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## First-Time Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+When you first launch Budget Savvy, you'll be guided through an initial setup process:
 
-**Use GitHub Codespaces**
+1. **Create Admin Account**
+   - Set up your primary administrator credentials
+   - Configure initial profile information
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. **Branding Configuration**
+   - Customize your application's appearance
+   - Set company name
+   - Upload logo
+   - Choose color theme
 
-## What technologies are used for this project?
+3. **Optional SMTP Configuration**
+   - Configure email notification settings
+   - Set up sender email address
 
-This project is built with:
+## Interactive Tour
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+After initial setup, Budget Savvy offers a guided tour to help you understand the application's key features:
 
-## How can I deploy this project?
+- Welcome introduction
+- Dashboard overview
+- Transaction management
+- Budget tracking
+- Financial analysis
+- Settings exploration
 
-Simply open [Lovable](https://lovable.dev/projects/f8d365e1-0447-4f80-8343-b8d9a26a8529) and click on Share -> Publish.
+The tour appears only once after the first login and can be exited at any time.
 
-## Can I connect a custom domain to my Lovable project?
+## Deployment
 
-Yes, you can!
+For detailed deployment instructions, refer to `deploy-guide.md` in the project root.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Quick Deploy Options
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **Local Deployment**: Use `npm run build` to generate production files
+- **Web Hosting**: Configure Apache or Nginx using provided configuration templates
+- **One-Click Deploy**: Use Lovable's publish feature
+
+## Customization
+
+- Modify authentication methods in `src/contexts/AuthContext.tsx`
+- Extend database integration in data service files
+- Customize UI components using Tailwind CSS and Shadcn/UI
+
+## Troubleshooting
+
+Consult `setup-guide.md` for common issues and their solutions.
+
+## Support
+
+- Review project documentation
+- Check GitHub repository for issues and updates
+- Contact system administrator for specific questions
+
+## License
+
+[Your License Information]
+
+## Contributing
+
+[Contribution Guidelines]
