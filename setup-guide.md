@@ -122,6 +122,20 @@ When you first access your Budget Savvy instance, you'll be automatically redire
 
 After completing the setup, you'll be redirected to the login page where you can sign in with your newly created credentials.
 
+## Step 6: Interactive Tour
+
+After logging in for the first time, Budget Savvy will present an interactive tour that guides new users through the key features:
+
+- **Welcome**: Introduction to Budget Savvy
+- **Dashboard**: Overview of financial status and quick access to important information
+- **Transactions**: Recording income and expenses
+- **Budgets**: Setting up and managing budget categories
+- **Analysis**: Financial insights and reports
+- **Settings**: Customizing the application
+- **Completion**: Final steps and getting started tips
+
+The tour only appears once after initial login. Users can exit the tour at any time, and it will be marked as completed.
+
 ## Important Notes
 
 - The setup page is only accessible once during initial configuration
@@ -170,6 +184,14 @@ If you're stuck in a redirect loop with the setup page:
 1. Clear your browser's local storage
 2. Ensure you've completed all required setup fields
 3. Check for JavaScript errors in the browser console
+
+### Issue: Tour Not Appearing
+
+If the interactive tour doesn't appear after the first login:
+
+1. Check browser console for errors
+2. Clear your browser's local storage and try again
+3. Ensure TourProvider is properly set up in App.tsx
 
 ## Support and Resources
 

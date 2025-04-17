@@ -27,6 +27,8 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   systemConfig: SystemConfig | null;
+  tourCompleted: boolean;
+  markTourAsCompleted: () => void;
 }
 
 // Create the context
@@ -46,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [systemConfig, setSystemConfig] = useState<SystemConfig | null>(null);
+  const [tourCompleted, setTourCompleted] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -74,6 +77,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('user');
       }
     }
+
+    // Check if tour has been completed
+    const isTourCompleted = localStorage.getItem('tourCompleted') === 'true';
+    setTourCompleted(isTourCompleted);
+    
     setLoading(false);
   }, []);
 
@@ -135,6 +143,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     navigate('/login');
   };
 
+  // Mark tour as completed
+  const markTourAsCompleted = () => {
+    setTourCompleted(true);
+    localStorage.setItem('tourCompleted', 'true');
+  };
+
   // Value provided by the context
   const value = {
     user,
@@ -142,7 +156,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     logout,
     isAuthenticated: !!user,
-    systemConfig
+    systemConfig,
+    tourCompleted,
+    markTourAsCompleted
   };
 
   return (

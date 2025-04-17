@@ -71,6 +71,18 @@ When you first access your Budget Savvy instance, you'll be automatically redire
 
 The setup page will only appear during the first access to your Budget Savvy instance. Once completed, you'll be redirected to the login page.
 
+## Interactive Tour
+
+After completing the setup and logging in for the first time, Budget Savvy will present an interactive tour that guides you through the key features of the application:
+
+- Dashboard overview
+- Transaction management
+- Budget creation and tracking
+- Financial analysis tools
+- Settings and configuration options
+
+This tour only appears once after installation. It can be exited at any time, and all tour steps will be marked as completed.
+
 ## Automated Installation
 
 For an automated setup process, you can use:

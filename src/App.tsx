@@ -15,6 +15,8 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SetupPage from "./pages/SetupPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { TourProvider } from "./contexts/TourContext";
+import TourGuide from "./components/tour/TourGuide";
 
 const queryClient = new QueryClient();
 
@@ -156,7 +158,10 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <AppRoutes />
+            <TourProvider>
+              <AppRoutes />
+              <TourGuide />
+            </TourProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
