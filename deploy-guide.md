@@ -1,9 +1,11 @@
 
 # Deploying Budget Savvy to Your Web Server
 
-This guide will help you deploy the Budget Savvy application to your own web server.
+This guide provides a brief overview of deploying Budget Savvy. For a more comprehensive setup guide, please refer to the `setup-guide.md` file.
 
-## Step 1: Build the Application
+## Quick Deployment Steps
+
+### Step 1: Build the Application
 
 Run the following command in your project directory:
 
@@ -13,9 +15,9 @@ npm run build
 
 This will create a `dist` folder containing the optimized production-ready files.
 
-## Step 2: Configure Your Web Server
+### Step 2: Configure Your Web Server
 
-### For Apache Server
+#### For Apache Server
 
 1. Upload all files from the `dist` folder to your web server's public directory.
 
@@ -32,7 +34,7 @@ This will create a `dist` folder containing the optimized production-ready files
 </IfModule>
 ```
 
-### For Nginx Server
+#### For Nginx Server
 
 Configure your Nginx server block:
 
@@ -49,20 +51,22 @@ server {
 }
 ```
 
-## Step 3: Important Note About the GPT Engineer Script
+## Automated Installation
 
-Ensure that the following script tag remains in your `index.html` file, as it's essential for the "Select" feature:
+For an automated setup process, you can use:
 
-```html
-<script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-```
+- `install.sh` (for Linux/macOS users)
+- `install.bat` (for Windows users)
 
-This script should be placed before the main application script. Removing or modifying this script tag will disable the Pick and Edit functionality.
+These scripts will guide you through the installation process.
 
-## Step 4: Environment Variables (If Needed)
+## Comprehensive Setup Guide
 
-If your application uses environment variables, make sure to set them on your server or create a `.env` file in your production environment.
+For a detailed setup guide including:
+- Prerequisites
+- Installation steps
+- Configuration options
+- Customization
+- Troubleshooting
 
-## Step 5: Testing
-
-After deployment, test all features of your application to ensure everything works as expected.
+Please refer to the `setup-guide.md` file.
