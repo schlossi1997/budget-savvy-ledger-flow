@@ -51,6 +51,20 @@ server {
 }
 ```
 
+## Initial Setup
+
+After deployment:
+
+1. Navigate to `http://your-domain.com/setup` in your browser
+2. Complete the setup form to create your admin account with your:
+   - Full name
+   - Email address
+   - Admin privileges
+   - Salary information
+   - Secure password
+3. After completing setup, you'll be redirected to the login page
+4. Log in with your newly created credentials
+
 ## Automated Installation
 
 For an automated setup process, you can use:

@@ -35,13 +35,17 @@ npm install
 
 ## Step 3: Configure the Application
 
-The application uses a simple authentication system. For a production environment, you should modify the authentication in `src/contexts/AuthContext.tsx`.
+The application uses a simple authentication system. For a production environment, you should follow these steps:
 
-Currently, the login credentials are:
-- Email: `admin@example.com`
-- Password: `password`
+1. First, navigate to `/setup` in your browser after deploying the application.
+2. Complete the setup form to create your admin account with:
+   - Full name
+   - Email address
+   - Admin privileges (enabled by default)
+   - Salary information (for budget recommendations)
+   - Secure password
 
-You may want to:
+For additional customization, you may want to:
 - Connect to a real authentication API
 - Set up a database for user management
 - Configure environment-specific settings
@@ -116,12 +120,13 @@ nginx -t
 sudo systemctl reload nginx
 ```
 
-## Step 6: Verify the Installation
+## Step 6: Initial Setup
 
-1. Navigate to your domain in a web browser
-2. Verify you can access the login page
-3. Log in with the default credentials (or your custom configuration)
-4. Confirm all functionality works correctly
+1. Navigate to `http://yourdomain.com/setup` in your browser
+2. Complete the setup form to create your admin account
+3. After completing setup, you'll be redirected to the login page
+4. Log in with your newly created credentials
+5. Confirm all functionality works correctly
 
 ## Customization Options
 
