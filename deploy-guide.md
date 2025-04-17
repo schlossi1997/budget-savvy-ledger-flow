@@ -51,19 +51,25 @@ server {
 }
 ```
 
-## Initial Setup
+## Initial System Setup
 
-After deployment:
+When you first access your Budget Savvy instance, you'll be automatically redirected to the setup page where you can configure:
 
-1. Navigate to `http://your-domain.com/setup` in your browser
-2. Complete the setup form to create your admin account with your:
-   - Full name
-   - Email address
-   - Admin privileges
-   - Salary information
-   - Secure password
-3. After completing setup, you'll be redirected to the login page
-4. Log in with your newly created credentials
+1. **Administrator Account**
+   - Create your admin account
+   - Set name, email, and password
+   - Configure salary information for budget recommendations
+
+2. **Branding**
+   - Set your company name
+   - Upload a company logo or provide a URL
+   - Choose your primary application color theme
+
+3. **SMTP Settings (Optional)**
+   - Configure email server details for notifications
+   - Set up the sender email address
+
+The setup page will only appear during the first access to your Budget Savvy instance. Once completed, you'll be redirected to the login page.
 
 ## Automated Installation
 

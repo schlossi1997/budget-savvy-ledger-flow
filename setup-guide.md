@@ -33,24 +33,7 @@ Navigate to the project directory and install dependencies:
 npm install
 ```
 
-## Step 3: Configure the Application
-
-The application uses a simple authentication system. For a production environment, you should follow these steps:
-
-1. First, navigate to `/setup` in your browser after deploying the application.
-2. Complete the setup form to create your admin account with:
-   - Full name
-   - Email address
-   - Admin privileges (enabled by default)
-   - Salary information (for budget recommendations)
-   - Secure password
-
-For additional customization, you may want to:
-- Connect to a real authentication API
-- Set up a database for user management
-- Configure environment-specific settings
-
-## Step 4: Build the Application
+## Step 3: Build the Application
 
 Create a production build:
 
@@ -60,7 +43,7 @@ npm run build
 
 This will generate a `dist` directory containing optimized static files.
 
-## Step 5: Deploy to Web Server
+## Step 4: Deploy to Web Server
 
 ### For Apache Server
 
@@ -120,17 +103,34 @@ nginx -t
 sudo systemctl reload nginx
 ```
 
-## Step 6: Initial Setup
+## Step 5: Initial System Setup
 
-1. Navigate to `http://yourdomain.com/setup` in your browser
-2. Complete the setup form to create your admin account
-3. After completing setup, you'll be redirected to the login page
-4. Log in with your newly created credentials
-5. Confirm all functionality works correctly
+When you first access your Budget Savvy instance, you'll be automatically redirected to the setup page where you can configure:
+
+1. **Administrator Account**
+   - Create your admin account with name, email, and password
+   - Set salary information for budget recommendations
+
+2. **Branding**
+   - Set your company name
+   - Upload a company logo (or provide a URL)
+   - Choose your primary application color
+
+3. **SMTP Settings (Optional)**
+   - Configure email server details for notifications
+   - Set up the "from" email address
+
+After completing the setup, you'll be redirected to the login page where you can sign in with your newly created credentials.
+
+## Important Notes
+
+- The setup page is only accessible once during initial configuration
+- If you need to reconfigure any settings after initial setup, use the Settings page
+- For security reasons, changing certain system-wide settings after initial setup may require additional verification
 
 ## Customization Options
 
-### Changing the Default Authentication
+### Changing the Authentication Method
 
 To replace the mock authentication with a real backend:
 
@@ -145,14 +145,6 @@ For storing real financial data:
 1. Set up a database (MySQL, PostgreSQL, MongoDB, etc.)
 2. Create an API to interact with your database
 3. Modify the data service files to connect to your API
-
-### Styling and Branding
-
-To customize the look and feel:
-
-1. Edit the tailwind configuration in `tailwind.config.ts`
-2. Update logos and icons in the `public` directory
-3. Modify component styles as needed
 
 ## Troubleshooting
 
@@ -171,22 +163,13 @@ If login fails:
 - Verify your authentication API is properly connected
 - Ensure CORS is correctly configured if API is on a different domain
 
-### Issue: Styling or Layout Problems
+### Issue: Setup Page Redirects in a Loop
 
-If the application appears broken:
+If you're stuck in a redirect loop with the setup page:
 
-- Clear browser cache and reload
-- Verify all CSS and JavaScript files are properly loaded
-- Check for console errors related to resource loading
-
-## Security Considerations
-
-Before deploying to production:
-
-1. Replace mock authentication with a secure authentication system
-2. Implement proper HTTPS using SSL/TLS certificates
-3. Set appropriate Content Security Policy headers
-4. Regularly update dependencies to patch security vulnerabilities
+1. Clear your browser's local storage
+2. Ensure you've completed all required setup fields
+3. Check for JavaScript errors in the browser console
 
 ## Support and Resources
 

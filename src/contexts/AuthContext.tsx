@@ -3,6 +3,15 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 
+// Define system config type
+interface SystemConfig {
+  companyName: string;
+  primaryColor: string;
+  logoUrl: string;
+  smtpConfigured: boolean;
+  setupComplete: boolean;
+}
+
 // Define user type
 interface User {
   id: string;
@@ -17,20 +26,45 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
+  systemConfig: SystemConfig | null;
 }
 
 // Create the context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Default system config
+const defaultSystemConfig: SystemConfig = {
+  companyName: 'Budget Savvy',
+  primaryColor: '#9b87f5',
+  logoUrl: '/placeholder.svg',
+  smtpConfigured: false,
+  setupComplete: false
+};
+
 // Auth provider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [systemConfig, setSystemConfig] = useState<SystemConfig | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Check if there's a user in localStorage on initial load
+  // Check if there's a user and system config in localStorage on initial load
   useEffect(() => {
+    // Check for system config
+    const storedConfig = localStorage.getItem('systemConfig');
+    if (storedConfig) {
+      try {
+        setSystemConfig(JSON.parse(storedConfig));
+      } catch (e) {
+        console.error('Failed to parse stored system config', e);
+        setSystemConfig(defaultSystemConfig);
+      }
+    } else {
+      setSystemConfig(defaultSystemConfig);
+    }
+    
+    // Check for user
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
@@ -62,9 +96,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
         
+        const companyName = systemConfig?.companyName || 'Budget Savvy';
+        
         toast({
-          title: "Login successful",
-          description: "Welcome back to Budget Savvy!"
+          title: `Login successful`,
+          description: `Welcome back to ${companyName}!`
         });
         
         return true;
@@ -105,7 +141,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     login,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    systemConfig
   };
 
   return (

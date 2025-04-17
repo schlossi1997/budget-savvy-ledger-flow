@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Index from "./pages/Index";
 import TransactionsPage from "./pages/TransactionsPage";
 import BudgetsPage from "./pages/BudgetsPage";
@@ -34,37 +35,114 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Check if system setup is needed
+const SetupCheck = ({ children }: { children: React.ReactNode }) => {
+  const [loading, setLoading] = useState(true);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
+  
+  useEffect(() => {
+    // Check if system is already set up
+    const systemConfig = localStorage.getItem('systemConfig');
+    if (systemConfig) {
+      try {
+        const config = JSON.parse(systemConfig);
+        setIsSetupComplete(!!config.setupComplete);
+      } catch (e) {
+        console.error('Failed to parse system config', e);
+      }
+    }
+    setLoading(false);
+  }, []);
+  
+  if (loading) {
+    return null; // Could show a loading spinner here
+  }
+  
+  // If setup is not complete, redirect to setup
+  if (!isSetupComplete) {
+    return <Navigate to="/setup" replace />;
+  }
+  
+  return <>{children}</>;
+};
+
 const AppRoutes = () => {
+  const [isSystemSetup, setIsSystemSetup] = useState<boolean | null>(null);
+  
+  useEffect(() => {
+    // Check if system is already set up
+    const systemConfig = localStorage.getItem('systemConfig');
+    if (systemConfig) {
+      try {
+        const config = JSON.parse(systemConfig);
+        setIsSystemSetup(!!config.setupComplete);
+      } catch (e) {
+        console.error('Failed to parse system config', e);
+        setIsSystemSetup(false);
+      }
+    } else {
+      setIsSystemSetup(false);
+    }
+  }, []);
+  
+  // Show loading until we know if system is set up
+  if (isSystemSetup === null) {
+    return null; // Could show a loading spinner here
+  }
+
   return (
     <Routes>
-      <Route path="/setup" element={<SetupPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      {/* Setup route should only be accessible if system is not set up */}
+      <Route path="/setup" element={
+        isSystemSetup ? <Navigate to="/login" replace /> : <SetupPage />
+      } />
+      
+      {/* These routes should only be accessible if system is set up */}
+      <Route path="/login" element={
+        !isSystemSetup ? <Navigate to="/setup" replace /> : <LoginPage />
+      } />
+      <Route path="/forgot-password" element={
+        !isSystemSetup ? <Navigate to="/setup" replace /> : <ForgotPasswordPage />
+      } />
+      
+      {/* Protected routes require both system setup and authentication */}
       <Route path="/" element={
+        !isSystemSetup ? 
+        <Navigate to="/setup" replace /> : 
         <ProtectedRoute>
           <Index />
         </ProtectedRoute>
       } />
       <Route path="/transactions" element={
+        !isSystemSetup ? 
+        <Navigate to="/setup" replace /> : 
         <ProtectedRoute>
           <TransactionsPage />
         </ProtectedRoute>
       } />
       <Route path="/budgets" element={
+        !isSystemSetup ? 
+        <Navigate to="/setup" replace /> : 
         <ProtectedRoute>
           <BudgetsPage />
         </ProtectedRoute>
       } />
       <Route path="/analysis" element={
+        !isSystemSetup ? 
+        <Navigate to="/setup" replace /> : 
         <ProtectedRoute>
           <AnalysisPage />
         </ProtectedRoute>
       } />
       <Route path="/settings" element={
+        !isSystemSetup ? 
+        <Navigate to="/setup" replace /> : 
         <ProtectedRoute>
           <SettingsPage />
         </ProtectedRoute>
       } />
+      
+      {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
